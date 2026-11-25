@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>First 15 Days Guide — Final CP Prototype</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #e8edf4;
+      font-family: Arial, sans-serif;
+      color: #26364D;
+    }
+    #app {
+      width: min(100%, 430px);
+      margin: 16px auto;
+      background: #F5F7FB;
+      min-height: 92vh;
+      box-shadow: 0 8px 32px rgba(20, 47, 89, 0.14);
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .screen {
+      display: none;
+      min-height: 92vh;
+      padding-bottom: 84px;
+    }
+    .screen.active {
+      display: block;
+    }
+    header {
+      background: #142F59;
+      color: #ffffff;
+      padding: 22px 22px 20px;
+    }
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 23px;
+      margin: 12px 0 6px;
+      line-height: 1.2;
+    }
+    header p {
+      font-size: 13px;
+      color: #e7edf5;
+      margin: 0;
+      line-height: 1.4;
+    }
+    header i {
+      display: block;
+      background: #D99517;
+      height: 5px;
+      width: 68px;
+      border-radius: 5px;
+      margin-top: 16px;
+    }
+    main {
+      padding: 18px 20px;
+    }
+    .label {
+      font-size: 11px;
+      color: #68778B;
+      font-weight: 700;
+      margin: 0 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .quick-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .chip-btn {
+      background: #ffffff;
+      border: 1px solid #D6DFEB;
+      border-radius: 10px;
+      padding: 9px 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #142F59;
+      cursor: pointer;
+      text-align: center;
+    }
+    .chip-btn:hover {
+      border-color: #142F59;
+      background: #eef3fa;
+    }
+    .item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      text-align: left;
+      border: 1px solid #D6DFEB;
+      border-radius: 14px;
+      background: #ffffff;
+      padding: 15px 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      color: #26364D;
+    }
+    .item:hover {
+      border-color: #142F59;
+    }
+    .num {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #F4D58A;
+      font-size: 12px;
+      font-weight: 700;
+      color: #142F59;
+      flex-shrink: 0;
+    }
+    .item b {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .item small {
+      display: block;
+      color: #68778B;
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+    .chev {
+      margin-left: auto;
+      font-size: 24px;
+      color: #54799B;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #D6DFEB;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    .panel h2 {
+      font-size: 14px;
+      margin: 0 0 8px;
+      color: #142F59;
+    }
+    .panel ul {
+      margin: 6px 0 0 18px;
+      padding: 0;
+    }
+    .panel li {
+      margin-bottom: 5px;
+    }
+    .notice {
+      background: #fff8e7;
+      border: 1px solid #f0c96b;
+      color: #6b4e00;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 11.5px;
+      line-height: 1.4;
+      margin-top: 10px;
+    }
+    table.proof-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      margin-top: 8px;
+    }
+    table.proof-tbl th,
+    table.proof-tbl td {
+      border: 1px solid #D6DFEB;
+      padding: 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.proof-tbl th {
+      background: #eef3fa;
+      color: #142F59;
+    }
+    nav {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(calc(100% - 32px), 398px);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #142F59;
+      border-radius: 14px;
+      padding: 6px;
+      gap: 6px;
+    }
+    nav button {
+      border: 0;
+      background: transparent;
+      color: #ffffff;
+      padding: 10px 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    nav button:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- SCREEN 0: HOME (5 CP4/CP5 Mind-Map Branches) -->
+    <section class="screen active" id="s0">
+      <header>
+        <div class="eyebrow">FIRST 15 DAYS GUIDE</div>
+        <h1>FIRST 15 DAYS</h1>
+        <p>Your guide to campus life &bull; Final CP Prototype (V2)</p>
+        <i></i>
+      </header>
+      <main>
+        <div class="label">QUICK SHORTCUTS (CP6 RETEST)</div>
+        <div class="quick-row">
+          <button class="chip-btn" onclick="go(2)">Timetable</button>
+          <button class="chip-btn" onclick="go(3)">RMS Guide</button>
+          <button class="chip-btn" onclick="go(5, 'wifi')">Wi-Fi Setup</button>
+        </div>
+
+        <div class="label">FIVE MAIN CATEGORIES</div>
+        <button class="item" onclick="go(1)">
+          <span class="num">01</span>
+          <span><b>Campus Navigation</b><small>Find blocks, rooms, routes &amp; map signposts</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="go(2)">
+          <span class="num">02</span>
+          <span><b>Study &amp; Academics</b><small>Timetable, courses, study &amp; classroom details</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="go(3)">
+          <span class="num">03</span>
+          <span><b>UMS</b><small>RMS, appointments, Edu Revolution &amp; exam tasks</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="go(4)">
+          <span class="num">04</span>
+          <span><b>Friends &amp; Support</b><small>Senior tips, peer support &amp; guidance channels</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="go(5)">
+          <span class="num">05</span>
+          <span><b>Hostel &amp; Daily Life</b><small>Hostel info, Wi-Fi Setup, daily routine &amp; contacts</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+
+        <div class="notice">
+          <strong>Scope Note:</strong> Low-fidelity conceptual prototype aligned with CP5 wireframe structure and 15 Nov 2026 CP6 retest updates. Official LPU links, UMS menu paths, and support contacts require verification before release.
+        </div>
+      </main>
+      <nav>
+        <button onclick="go(0)">HOME</button>
+        <button onclick="goBack()">BACK</button>
+        <button onclick="go(6)">CP6 LOG</button>
+      </nav>
+    </section>
+
+    <!-- SCREEN 1: CAMPUS NAVIGATION -->
+    <section class="screen" id="s1">
+      <header>
+        <div class="eyebrow">FIRST 15 DAYS GUIDE</div>
+        <h1>CAMPUS NAVIGATION</h1>
+        <p>Find your way around</p>
+        <i></i>
+      </header>
+      <main>
+        <div class="label">QUICK LINKS</div>
+        <button class="item" onclick="openDetail('Find a Building', 'Block and building guidance', 'Verify block numbers and walking routes against current LPU campus directions.', 'Check official LPU campus directions before relying on route steps.')">
+          <span class="num">01</span>
+          <span><b>Find a Building</b><small>Block and building guidance</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Room Codes', 'Understand room and floor codes', 'Check official UMS/classroom allocation details and verify floor/room numbering conventions.', 'Do not treat unverified room-code rules as official until confirmed.')">
+          <span class="num">02</span>
+          <span><b>Room Codes</b><small>Understand room and floor codes</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Campus Map', 'Official map destination to be added', 'Placeholder signpost for authorised campus map / QR destination once verified.', 'Not included in the 15 Nov 2026 retest task set; pending official verification.')">
+          <span class="num">03</span>
+          <span><b>Campus Map</b><small>Official map destination to be added</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Need Help?', 'Use verified campus support channels', 'Placeholder for verified campus support desk / help point details.', 'Add verified official LPU support contacts after checking.')">
+          <span class="num">04</span>
+          <span><b>Need Help?</b><small>Use verified campus support channels</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+      </main>
+      <nav>
+        <button onclick="go(0)">HOME</button>
+        <button onclick="goBack()">BACK</button>
+        <button onclick="go(6)">CP6 LOG</button>
+      </nav>
+    </section>
+
+    <!-- SCREEN 2: STUDY & ACADEMICS -->
+    <section class="screen" id="s2">
+      <header>
+        <div class="eyebrow">FIRST 15 DAYS GUIDE</div>
+        <h1>STUDY &amp; ACADEMICS</h1>
+        <p>Plan your academic day</p>
+        <i></i>
+      </header>
+      <main>
+        <div class="label">QUICK LINKS</div>
+        <button class="item" onclick="openDetail('Timetable', 'Quick access to class schedule', 'Check official UMS menu path for your class schedule and section timing.', 'Retest (15 Nov 2026): All 3 participants passed; R01 noted Study & Academics and timetable shortcut were easy to locate.')">
+          <span class="num">01</span>
+          <span><b>Timetable</b><small>Quick access to class schedule</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Course Details', 'Course and section information', 'Verify enrolled course codes, section, and lab group details on UMS.', 'Check official UMS menu path and syllabus records.')">
+          <span class="num">02</span>
+          <span><b>Course Details</b><small>Course and section information</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Study Material', 'Learning resources', 'Keep study material separate from class timetable; verify official UMS resources.', 'Earlier feedback noted confusion between Study Material and UMS for timetable—now separated.')">
+          <span class="num">03</span>
+          <span><b>Study Material</b><small>Learning resources</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Classroom Details', 'Block, floor and room guidance', 'Confirm classroom/lab allocation from official UMS and department notices.', 'Subject to official LPU verification.')">
+          <span class="num">04</span>
+          <span><b>Classroom Details</b><small>Block, floor and room guidance</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+      </main>
+      <nav>
+        <button onclick="go(0)">HOME</button>
+        <button onclick="goBack()">BACK</button>
+        <button onclick="go(6)">CP6 LOG</button>
+      </nav>
+    </section>
+
+    <!-- SCREEN 3: UMS SERVICES -->
+    <section class="screen" id="s3">
+      <header>
+        <div class="eyebrow">FIRST 15 DAYS GUIDE</div>
+        <h1>UMS SERVICES</h1>
+        <p>Choose the task you need</p>
+        <i></i>
+      </header>
+      <main>
+        <div class="label">QUICK LINKS</div>
+        <button class="item" onclick="openDetail('RMS — Raise / Track a Request', 'Request and tracking guidance', 'Verify current official UMS navigation path for raising and tracking RMS requests.', 'Retest (15 Nov 2026): All 3 participants passed; R02 noted RMS separation and tracking labels were clear.')">
+          <span class="num">01</span>
+          <span><b>RMS — Raise / Track a Request</b><small>Request and tracking guidance</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Appointments', 'Appointment guidance', 'Verify current appointment procedure and availability on official UMS.', 'Placeholder guidance pending official UMS check.')">
+          <span class="num">02</span>
+          <span><b>Appointments</b><small>Appointment guidance</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Edu Revolution', 'Service information', 'Verify current Edu Revolution guidelines, eligibility, and official UMS path.', 'Requires verification against current official LPU information.')">
+          <span class="num">03</span>
+          <span><b>Edu Revolution</b><small>Service information</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Grade Upgradation', 'Check current procedure', 'Verify current grade upgradation rules and official UMS steps.', 'Subject to official LPU verification.')">
+          <span class="num">04</span>
+          <span><b>Grade Upgradation</b><small>Check current procedure</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Exam Scrutiny', 'Check current procedure', 'Verify current exam scrutiny procedure and official UMS steps.', 'Subject to official LPU verification.')">
+          <span class="num">05</span>
+          <span><b>Exam Scrutiny</b><small>Check current procedure</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+      </main>
+      <nav>
+        <button onclick="go(0)">HOME</button>
+        <button onclick="goBack()">BACK</button>
+        <button onclick="go(6)">CP6 LOG</button>
+      </nav>
+    </section>
+
+    <!-- SCREEN 4: FRIENDS & SUPPORT -->
+    <section class="screen" id="s4">
+      <header>
+        <div class="eyebrow">FIRST 15 DAYS GUIDE</div>
+        <h1>FRIENDS &amp; SUPPORT</h1>
+        <p>Get help and feel connected</p>
+        <i></i>
+      </header>
+      <main>
+        <div class="label">QUICK LINKS</div>
+        <button class="item" onclick="openDetail('Senior Tips', 'Advice from experienced students', 'General peer guidance notes for early campus adjustment.', 'Keep peer advice distinct from verified official university rules.')">
+          <span class="num">01</span>
+          <span><b>Senior Tips</b><small>Advice from experienced students</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Peer Support', 'Connect and ask for guidance', 'Peer support concept placeholder for connecting with fellow students.', 'Verify approved student support channels before release.')">
+          <span class="num">02</span>
+          <span><b>Peer Support</b><small>Connect and ask for guidance</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Ask for Guidance', 'Where to get help', 'Placeholder for verified campus guidance channels.', 'Named support contacts require official verification.')">
+          <span class="num">03</span>
+          <span><b>Ask for Guidance</b><small>Where to get help</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+      </main>
+      <nav>
+        <button onclick="go(0)">HOME</button>
+        <button onclick="goBack()">BACK</button>
+        <button onclick="go(6)">CP6 LOG</button>
+      </nav>
+    </section>
+
+    <!-- SCREEN 5: HOSTEL & DAILY LIFE -->
+    <section class="screen" id="s5">
+      <header>
+        <div class="eyebrow">FIRST 15 DAYS GUIDE</div>
+        <h1>HOSTEL &amp; DAILY LIFE</h1>
+        <p>Everyday student essentials</p>
+        <i></i>
+      </header>
+      <main>
+        <div class="label">QUICK LINKS</div>
+        <button class="item" onclick="openDetail('Hostel Information', 'Daily-life essentials', 'Verify current hostel rules, leave process, and official warden/hostel info.', 'Subject to official LPU hostel verification.')">
+          <span class="num">01</span>
+          <span><b>Hostel Information</b><small>Daily-life essentials</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" id="sec-wifi" onclick="openDetail('Wi-Fi Setup', 'Setup guidance & label update', 'Added explicit &quot;Wi-Fi Setup&quot; label after CP6 retest (R02 needed a hint on the icon). This label change has not yet been re-tested.', 'Setup instructions and link destination require official LPU verification.')">
+          <span class="num">02</span>
+          <span><b>Wi-Fi Setup</b><small>Label updated per CP6 action; setup to verify</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Daily Routine', 'Helpful everyday reminders', 'General daily routine reminders for early weeks.', 'Verify schedule and campus timings officially.')">
+          <span class="num">03</span>
+          <span><b>Daily Routine</b><small>Helpful everyday reminders</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+        <button class="item" onclick="openDetail('Support Contacts', 'Add verified official contacts', 'Placeholder for verified official support contacts.', 'Do not use unverified phone/contact numbers.')">
+          <span class="num">04</span>
+          <span><b>Support Contacts</b><small>Add verified official contacts</small></span>
+          <span class="chev">&rsaquo;</span>
+        </button>
+      </main>
+      <nav>
+        <button onclick="go(0)">HOME</button>
+        <button onclick="goBack()">BACK</button>
+        <button onclick="go(6)">CP6 LOG</button>
+      </nav>
+    </section>
+
+    <!-- SCREEN 6: CP6 BEFORE-AND-AFTER & RETEST LOG (15 NOV 2026) -->
+    <section class="screen" id="s6">
+      <header>
+        <div class="eyebrow">CP6 RETEST RECORD</div>
+        <h1>BEFORE / AFTER &amp; RETEST</h1>
+        <p>15 November 2026 &bull; Prototype V2 aligned to wireframe</p>
+        <i></i>
+      </header>
+      <main>
+        <div class="panel">
+          <h2>Retest Summary (15 Nov 2026)</h2>
+          <p><strong>3 participants</strong> (<code>R01</code> Hostel, <code>R02</code> Day Scholar, <code>R03</code> Hostel), <strong>12 task attempts</strong>: <strong>11/12 (91.7%)</strong> pass without hint, <strong>1 hint</strong>, <strong>0 fail</strong>.</p>
+          <p style="margin-top:4px;">Task-wise: Timetable 3 Pass / 0 Hint / 0 Fail; RMS 3/0/0; Wi-Fi 2/1/0; Return Home 3/0/0.</p>
+        </div>
+
+        <div class="panel">
+          <h2>Before-and-After Changes</h2>
+          <table class="proof-tbl">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Before &rarr; After</th>
+                <th>Retest Evidence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Study &amp; Timetable</strong></td>
+                <td>Renamed to &quot;Study &amp; Academics&quot; + added visible Timetable shortcut.</td>
+                <td>R01: very easy to locate. All 3 passed Timetable.</td>
+              </tr>
+              <tr>
+                <td><strong>UMS / RMS</strong></td>
+                <td>Separated UMS tasks; clarified &quot;RMS &mdash; Raise / Track a Request&quot;.</td>
+                <td>R02: RMS separation &amp; tracking labels clear. All 3 passed.</td>
+              </tr>
+              <tr>
+                <td><strong>Wi-Fi Setup</strong></td>
+                <td>Added Wi-Fi shortcut; now labeled &quot;Wi-Fi Setup&quot; (not yet re-tested).</td>
+                <td>R02 needed minor hint on icon; R01 &amp; R03 passed without hint.</td>
+              </tr>
+              <tr>
+                <td><strong>Navigation</strong></td>
+                <td>Explicit return paths + visible HOME/BACK controls.</td>
+                <td>R03: smooth navigation. All 3 passed Return Home.</td>
+              </tr>
+              <tr>
+                <td><strong>Map / Support</strong></td>
+                <td>Kept as placeholders/signposts pending official verification.</td>
+                <td>No retest task supplied; not claimed as validated.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <h2>Remaining Action &amp; Limitations</h2>
+          <ul>
+            <li><strong>Remaining Action:</strong> Visible <em>&quot;Wi-Fi Setup&quot;</em> label added to address R02&apos;s hint; not yet re-tested.</li>
+            <li><strong>Evidence Boundaries:</strong> Written retest record from 3 participants only; no screenshots, video proof, signed participant forms, or independent observation files are attached here, and official LPU details/links remain subject to verification.</li>
+          </ul>
+        </div>
+      </main>
+      <nav>
+        <button onclick="go(0)">HOME</button>
+        <button onclick="goBack()">BACK</button>
+        <button onclick="go(6)">CP6 LOG</button>
+      </nav>
+    </section>
+
+    <!-- SCREEN 7: TASK DETAIL (CP5 WIREFRAME STRUCTURE) -->
+    <section class="screen" id="s7">
+      <header>
+        <div class="eyebrow">TASK GUIDE</div>
+        <h1 id="detTitle">TASK DETAIL</h1>
+        <p id="detSub">Conceptual layout demonstration</p>
+        <i></i>
+      </header>
+      <main>
+        <div class="panel">
+          <h2>What This Task Covers</h2>
+          <p id="detDesc"></p>
+        </div>
+        <div class="panel">
+          <h2>Verification &amp; Retest Note</h2>
+          <p id="detNote"></p>
+        </div>
+      </main>
+      <nav>
+        <button onclick="go(0)">HOME</button>
+        <button onclick="goBack()">BACK</button>
+        <button onclick="go(6)">CP6 LOG</button>
+      </nav>
+    </section>
+  </div>
+
+  <script>
+    let stack = [0];
+
+    function go(n, anchor = null) {
+      if (stack[stack.length - 1] !== n) {
+        stack.push(n);
+      }
+      document.querySelectorAll(".screen").forEach((s, i) => s.classList.toggle("active", i === n));
+      if (n === 0) stack = [0];
+      if (anchor) {
+        const el = document.getElementById("sec-" + anchor);
+        if (el) {
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "center" }), 30);
+          return;
+        }
+      }
+      window.scrollTo(0, 0);
+    }
+
+    function goBack() {
+      if (stack.length > 1) {
+        stack.pop();
+        const prev = stack[stack.length - 1];
+        document.querySelectorAll(".screen").forEach((s, i) => s.classList.toggle("active", i === prev));
+        window.scrollTo(0, 0);
+      } else {
+        go(0);
+      }
+    }
+
+    function openDetail(title, sub, desc, note) {
+      document.getElementById("detTitle").textContent = title;
+      document.getElementById("detSub").textContent = sub;
+      document.getElementById("detDesc").textContent = desc;
+      document.getElementById("detNote").textContent = note;
+      go(7);
+    }
+  </script>
+</body>
+</html>
